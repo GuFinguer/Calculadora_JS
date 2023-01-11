@@ -1,0 +1,1 @@
+Fala pessoal! Aqui está uma calculadora simples parecida com a do google utilizando JavaScript. Neste projeto usei o browser como HOST e para isso tive que criar um arquivo HTML e  estilizá-lo com CSS. Calculadora simples, mas registra mais uma etapa dos meus estudos! 
