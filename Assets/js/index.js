@@ -1,77 +1,54 @@
-function criaCalculador() {
-    return {
-        display: document.querySelector('.display'),
+function Calculadora() {
+  this.display = document.querySelector('.display');
 
-        inicia() {
-            this.cliqueBotoes();
-            this.pressionaEnter();
-        },
+  this.inicia = () => {
+    this.capturaCliques();
+    this.capturaEnter();
+  };
 
-        pressionaEnter() {
-          this.display.addEventListener('keyup', e => {
-            if(e.keyCode === 13) {
-                this.realizaConta();
-            }
-          })
-        },
-       
-        realizaConta() {
-            let conta = this.display.value;
+  this.capturaEnter = () => {
+    this.display.addEventListener('keypress', e => {
+      if (e.keycode !== 13) {
+      this.realizaConta();
+      }
+                    
+    });
+  };
 
-            try {
-              conta = eval(conta);
+  this.capturaCliques = () => {
+    document.addEventListener('click', event =>{
+      const el = event.target;
+      if (el.classList.contains('btn-num')) this.addNumDislay(el);
+      if (el.classList.contains('btn-clear')) this.clear(el);
+      if (el.classList.contains('btn-dell')) this.dell( );
+      if (el.classList.contains('btn-eq')) this.realizaConta(el);
 
-              if(!conta) {
-                alert('Verifique a conta, conta inválida');
-                return;
-              }
-              this.display.value = String(conta);
-            } catch(e) {
-               alert('Conta Inválida');
-               return;
-            }
-        },
+    });
+  };
 
-        clearDisplay() {
-            this.display.value = ' ';
-        },
+  this.realizaConta = () => {
+    try {
+      const conta = eval(this.display.value);
 
-        apagaUm() {
-            this.display.value = this.display.value.slice(0, -1);
-        },
+      if(!conta) {
+        alert('Conta inválida')
+        return;
+      }
+      this.display.value = conta;
+    } catch(e) {
+        alert("Conta inválida");
+        return;
+    }
+  };
 
-
-        cliqueBotoes() {
-            document.addEventListener('click', (e) => {
-                const el = e.target;
-
-                if (el.classList.contains('btn-num')) {
-                    this.btnParaDisplay(el.innerText);
-                }
-
-                if (el.classList.contains('btn-clear')) {
-                    this.clearDisplay();
-                }
-
-                if (el.classList.contains('btn-dell')) {
-                    this.apagaUm(); 
-                }
-
-                if (el.classList.contains('btn-eq')) {
-                this.realizaConta();
-                }
-
-            });
-
-        },
-
-        btnParaDisplay(valor) {
-            this.display.value += valor;
-        }
-    };
+  this.addNumDislay = el => {
+    this.display.value += el.innerText;
+    this.display.focus();
 }
+  this.clear = () => this.display.value = " ";
+  this.dell = () => this.display.value = this.display.value.slice(0, -1);
+  
+};
 
-const calculadora = criaCalculador();
-calculadora.inicia()
-
-//Sempre que temos que referenciar uma chave do meu objeto no próprio objeto eu preciso usar this
+const calculadora = new Calculadora();
+calculadora.inicia();
